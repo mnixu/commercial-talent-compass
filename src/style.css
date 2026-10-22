@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    background-color: #FAF7F2;
+    color: #1E1B26;
+    letter-spacing: -0.01em;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: radial-gradient(circle at top right, #F6EEFA 0%, #FAF7F2 60%, #FFFDF9 100%);
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Utilities for aesthetic card looks (Solid colors optimized for html2canvas poster rendering) */
+.glass-card {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(230, 218, 247, 0.7);
+}
+
+.glass-card-purple {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F5EFFD 100%);
+  border: 1px solid #D5C1F0;
+}
+
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 15px 30px -5px rgba(124, 58, 237, 0.45);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2.5s infinite ease-in-out;
+}
+
