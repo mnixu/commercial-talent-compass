@@ -1,35 +1,34 @@
 <template>
-  <div class="relative w-full aspect-square max-w-[340px] mx-auto flex items-center justify-center p-2">
-    <svg :viewBox="`0 0 ${size} ${size}`" class="w-full h-full overflow-visible drop-shadow-sm">
+  <div class="relative w-full aspect-square max-w-[340px] mx-auto flex items-center justify-center p-1">
+    <svg :viewBox="`0 0 ${size} ${size}`" class="w-full h-full overflow-visible">
       <defs>
-        <!-- 背景多边形填充渐变 -->
-        <radialGradient id="radarBgGradient" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.04" />
-          <stop offset="100%" stop-color="#7C3AED" stop-opacity="0.12" />
-        </radialGradient>
+        <!-- 文字立体阴影滤镜，确保在任何深色背景下100%清晰 -->
+        <filter id="textGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="1.2" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.85" />
+        </filter>
 
-        <!-- 数据多边形填充渐变 -->
+        <!-- 数据多边形填充渐变（更通透、更协调的高级发光感） -->
         <linearGradient id="polygonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.65" />
+          <stop offset="0%" stop-color="#A855F7" stop-opacity="0.55" />
           <stop offset="50%" stop-color="#EC4899" stop-opacity="0.45" />
           <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.55" />
         </linearGradient>
 
-        <!-- 描边渐变 -->
+        <!-- 描边高亮纯白微光渐变 -->
         <linearGradient id="strokeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#7C3AED" />
-          <stop offset="50%" stop-color="#DB2777" />
-          <stop offset="100%" stop-color="#D97706" />
+          <stop offset="0%" stop-color="#C084FC" />
+          <stop offset="50%" stop-color="#F472B6" />
+          <stop offset="100%" stop-color="#FDE047" />
         </linearGradient>
       </defs>
 
-      <!-- 蛛网背景多边形层级 (20%, 40%, 60%, 80%, 100%) -->
+      <!-- 蛛网背景多边形层级 (25%, 50%, 75%, 100%) -->
       <polygon
         v-for="level in [0.25, 0.5, 0.75, 1.0]"
         :key="level"
         :points="getPolygonPoints(level)"
         fill="none"
-        stroke="#E9DFF7"
+        :stroke="level === 1.0 ? 'rgba(255, 255, 255, 0.45)' : 'rgba(255, 255, 255, 0.20)'"
         :stroke-width="level === 1.0 ? 1.5 : 1"
         :stroke-dasharray="level === 1.0 ? '' : '3 3'"
       />
@@ -42,11 +41,11 @@
         :y1="center"
         :x2="axis.x"
         :y2="axis.y"
-        stroke="#E6DAF7"
+        stroke="rgba(255, 255, 255, 0.28)"
         stroke-width="1.2"
       />
 
-      <!-- 用户得分多边形 (带微发光与渐变填充) -->
+      <!-- 用户得分多边形 (发光渐变填充) -->
       <polygon
         :points="dataPolygonPoints"
         fill="url(#polygonGradient)"
@@ -63,28 +62,28 @@
           :cy="point.y"
           r="4.5"
           fill="#FFFFFF"
-          stroke="#7C3AED"
-          stroke-width="2.5"
+          stroke="#F472B6"
+          stroke-width="2"
         />
         <circle
           :cx="point.x"
           :cy="point.y"
           r="2"
-          fill="#EC4899"
+          fill="#FDE047"
         />
       </g>
 
-      <!-- 维度名称与得分文本标签 -->
-      <g v-for="(label, index) in labels" :key="'label-' + index">
+      <!-- 维度名称与得分文本标签 (纯白加粗 + 明黄得分，100% 清晰防暗色遮挡) -->
+      <g v-for="(label, index) in labels" :key="'label-' + index" filter="url(#textGlow)">
         <text
           :x="label.x"
           :y="label.y"
           :text-anchor="label.anchor"
           dominant-baseline="central"
-          class="font-medium tracking-tight fill-ink-800 text-[11px]"
+          class="font-medium tracking-tight text-[11px]"
         >
-          <tspan font-weight="600" fill="#2C2738">{{ label.name }}</tspan>
-          <tspan dx="3" font-weight="700" :fill="label.color">{{ label.score }}%</tspan>
+          <tspan font-weight="700" fill="#FFFFFF">{{ label.name }}</tspan>
+          <tspan dx="4" font-weight="800" fill="#FDE047">{{ label.score }}%</tspan>
         </text>
       </g>
     </svg>
@@ -100,9 +99,9 @@ const props = defineProps<{
   scores: Record<DimensionKey, number>
 }>()
 
-const size = 320
+const size = 330
 const center = size / 2
-const radius = 105 // 最大半径
+const radius = 96 // 最大半径
 
 // 计算正六边形角度
 function getAngle(index: number): number {
@@ -149,7 +148,7 @@ const dataPolygonPoints = computed(() => {
 
 // 标签外扩位置与排版
 const labels = computed(() => {
-  const labelRadius = radius + 28
+  const labelRadius = radius + 30
   return DIMENSION_KEYS.map((key, i) => {
     const angle = getAngle(i)
     const x = center + Math.cos(angle) * labelRadius

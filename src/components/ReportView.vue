@@ -69,10 +69,13 @@
         </div>
 
         <!-- 六维雷达图嵌入 -->
-        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/10 mb-4 flex flex-col items-center">
-          <div class="text-[11px] font-bold text-white/90 mb-1 flex items-center gap-1 self-start">
-            <RadarIcon class="w-3.5 h-3.5 text-amber-300" />
-            <span>六维商业天赋全景</span>
+        <div class="bg-black/30 backdrop-blur-md rounded-2xl p-3 border border-white/15 mb-4 flex flex-col items-center">
+          <div class="w-full flex items-center justify-between text-[11px] font-bold text-white/95 mb-1 px-1">
+            <div class="flex items-center gap-1">
+              <RadarIcon class="w-3.5 h-3.5 text-amber-300" />
+              <span>六维商业天赋全景</span>
+            </div>
+            <span class="text-[10px] text-amber-300/90 font-mono">满分 100%</span>
           </div>
           <div class="w-full flex justify-center scale-95 -my-2">
             <RadarChart :scores="report.dimensionPercentages" />
@@ -644,13 +647,14 @@ function copyBio() {
 }
 
 onMounted(() => {
-  // 礼花撒花特效
+  // 礼花撒花特效 (从顶部高处下落并迅速淡出，不遮挡卡片文字)
   try {
     confetti({
-      particleCount: 70,
-      spread: 60,
-      origin: { y: 0.6 },
-      colors: ['#8B5CF6', '#EC4899', '#F59E0B', '#10B981']
+      particleCount: 50,
+      spread: 70,
+      ticks: 120,
+      origin: { y: 0.1 },
+      colors: ['#A855F7', '#EC4899', '#FBBF24', '#34D399']
     })
   } catch (e) {
     console.error(e)
