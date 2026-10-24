@@ -12,7 +12,7 @@
           <span>上一题</span>
         </button>
         <div v-else class="text-xs text-ink-400 font-medium">
-          微情境测试
+          商业微情境直觉测试
         </div>
 
         <div class="flex items-center gap-1.5">
@@ -66,7 +66,7 @@
           >
             <!-- 选项序号字母徽章 -->
             <div
-              class="w-7 h-7 rounded-xl flex items-center justify-center text-xs font-bold shrink-0 transition-colors"
+              class="w-7 h-7 rounded-xl flex items-center justify-center text-xs font-bold shrink-0 transition-colors mt-0.5"
               :class="[
                 isSelected(option.id)
                   ? 'bg-lavender-600 text-white'
@@ -77,18 +77,13 @@
             </div>
 
             <!-- 选项文字内容 -->
-            <div class="flex-1">
+            <div class="flex-1 self-center">
               <p
-                class="text-sm font-medium leading-relaxed transition-colors mb-1.5"
+                class="text-sm font-medium leading-relaxed transition-colors"
                 :class="isSelected(option.id) ? 'text-lavender-900 font-semibold' : 'text-ink-800'"
               >
                 {{ option.text }}
               </p>
-
-              <!-- 特质标签 -->
-              <div v-if="option.subtext" class="inline-block text-[11px] font-normal px-2 py-0.5 rounded bg-cream-200/80 text-ink-500">
-                {{ option.subtext }}
-              </div>
             </div>
           </button>
         </div>

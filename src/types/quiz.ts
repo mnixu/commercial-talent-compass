@@ -133,6 +133,13 @@ export interface ArchetypeResult {
   flowVelocity: 'S+' | 'S' | 'A+' | 'A'
   wealthEnergyTag: string
   hormoziSprint: HormoziSprint
+  dailyHabits?: string[]
+  cautionHustles?: string[]
+  guideDownload?: {
+    manualTitle: string
+    manualPages: string
+    keyTakeaway: string
+  }
 }
 
 export interface SubMetricItem {

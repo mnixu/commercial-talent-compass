@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@rolldown/binding-win32-x64-msvc": "^1.2.15",
     "canvas-confetti": "^1.9.4",
     "html2canvas": "^1.4.1",
     "lucide-vue-next": "^0.577.0",

@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# Temporary scraper and research files
+download_*.mjs
+find_product_images.mjs
+parse_goods.mjs
+scratch_find_api.js
+xhs_*

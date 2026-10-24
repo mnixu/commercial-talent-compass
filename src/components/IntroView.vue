@@ -5,7 +5,7 @@
       <div class="flex items-center justify-between mb-6">
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-lavender-100 text-lavender-700 text-xs font-semibold tracking-wide border border-lavender-200/60 shadow-sm">
           <Sparkles class="w-3.5 h-3.5 text-lavender-600 animate-pulse" />
-          <span>2026 小红书热门商业体质测验</span>
+          <span>2026 小红书热门搞钱体质测验</span>
         </div>
         <div class="text-[11px] font-medium text-ink-500 bg-cream-200/80 px-2.5 py-0.5 rounded-md">
           限时免费版
@@ -27,8 +27,8 @@
         </div>
 
         <p class="text-sm text-ink-700 leading-relaxed px-2 font-normal">
-          告别晦涩枯燥的心理学术语。<br />
-          16 道微情境直击本能，解锁你的专属商业原型、6维天赋雷达与轻资产副业破局清单。
+          告别晦涩枯燥的抽象术语。<br />
+          16 道微情境直击搞钱本能，解锁你的真实职业副业契合度、避雷黑榜与首步落地清单。
         </p>
       </div>
 
@@ -53,9 +53,9 @@
             <Compass class="w-5 h-5" />
           </div>
           <div>
-            <h3 class="text-sm font-bold text-ink-900 mb-0.5">6维商业原力全景雷达</h3>
+            <h3 class="text-sm font-bold text-ink-900 mb-0.5">6维商业天赋全景雷达</h3>
             <p class="text-xs text-ink-500 leading-normal">
-              涵盖流量嗅觉、产品包装、情绪价值、资源杠杆、敏锐洞察与交付闭环力。
+              科学评估流量嗅觉、审美包装、共情连接、资源协同、敏锐洞察与执行落地。
             </p>
           </div>
         </div>
@@ -65,9 +65,9 @@
             <Crown class="w-5 h-5" />
           </div>
           <div>
-            <h3 class="text-sm font-bold text-ink-900 mb-0.5">8大爆款商业搞钱原型</h3>
+            <h3 class="text-sm font-bold text-ink-900 mb-0.5">8大实用搞钱体质原型</h3>
             <p class="text-xs text-ink-500 leading-normal">
-              揭晓你是【暗线操盘手】、【感知力美学买手】还是【超级个体】，对标名人基因。
+              揭晓你是【视觉审美种草型】、【商务撮合型】还是【数字制作人】，对标真实搞钱本能。
             </p>
           </div>
         </div>
@@ -77,9 +77,9 @@
             <Rocket class="w-5 h-5" />
           </div>
           <div>
-            <h3 class="text-sm font-bold text-ink-900 mb-0.5">量身定制轻资产副业清单</h3>
+            <h3 class="text-sm font-bold text-ink-900 mb-0.5">真实轻资产副业与避坑黑榜</h3>
             <p class="text-xs text-ink-500 leading-normal">
-              拒绝无用鸡汤，为你匹配 3 条最适副业方向，并附上本周即可落地的第一步行动 SOP。
+              匹配 3 大高契合副业（附具体工具与第一步）+ 3 大极易亏钱避雷黑榜 + 专属实操大礼包。
             </p>
           </div>
         </div>
@@ -107,7 +107,7 @@
         @click="startQuiz"
         class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-lavender-600 via-purple-600 to-indigo-600 text-white font-bold text-base shadow-float hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group animate-pulse-subtle"
       >
-        <span>开启我的商业体质测试</span>
+        <span>开启我的搞钱体质测试</span>
         <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
       </button>
     </div>
@@ -131,12 +131,12 @@ import { useQuiz } from '../composables/useQuiz'
 const { startQuiz } = useQuiz()
 
 const tickerList = [
-  '刚刚 @林小夕 测出了【感知力天花板美学买手】',
-  '刚刚 @阿楚 测出了【暗线操盘手】',
-  '刚刚 @Vivian 测出了【超级超级个体】',
-  '刚刚 @Kevin 测出了【信息差套利猎手】',
-  '刚刚 @麦子 测出了【私域高客单磁场王】',
-  '刚刚 @周周 测出了【爆款风向标捕手】'
+  '刚刚 @林小夕 测出了【视觉审美 · 氛围种草型】',
+  '刚刚 @阿楚 测出了【资源中介 · 商务撮合型】',
+  '刚刚 @Vivian 测出了【数字技能 · 独立制作人】',
+  '刚刚 @Kevin 测出了【信息差挖掘 · 捡漏买卖型】',
+  '刚刚 @麦子 测出了【深度陪伴 · 倾听咨询型】',
+  '刚刚 @周周 测出了【热点内容 · 爆款编导型】'
 ]
 
 const currentLiveTicker = ref(tickerList[0])
