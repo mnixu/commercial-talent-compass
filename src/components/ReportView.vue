@@ -27,13 +27,18 @@
         </div>
 
         <!-- 原型大标题 -->
-        <div class="space-y-1 mb-3">
-          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-black shadow-sm"
-               :style="{ backgroundColor: report.archetype.archetypeColor.badgeBg, color: report.archetype.archetypeColor.badgeText }">
-            <Sparkles class="w-3.5 h-3.5" />
-            <span>{{ report.archetype.badge }}</span>
+        <div class="space-y-1.5 mb-3">
+          <div
+            class="inline-block px-3 py-1 rounded-full text-xs font-black shadow-sm"
+            :style="{
+              backgroundColor: report.archetype.archetypeColor.badgeBg,
+              color: report.archetype.archetypeColor.badgeText,
+              lineHeight: '1.2'
+            }"
+          >
+            <span>✨ {{ report.archetype.badge }}</span>
           </div>
-          <h1 class="text-3xl font-black tracking-tight text-white">
+          <h1 class="text-3xl font-black tracking-tight text-white leading-tight">
             {{ report.archetype.title }}
           </h1>
           <p class="text-xs text-white/90 font-medium">
@@ -52,23 +57,23 @@
           </span>
         </div>
 
-        <!-- 3 大搞钱属性条 -->
-        <div class="grid grid-cols-3 gap-2 p-2 rounded-xl bg-black/25 backdrop-blur-sm border border-white/10 text-center mb-4">
-          <div>
-            <div class="text-[10px] text-white/70">搞钱体质</div>
-            <div class="text-xs font-black text-emerald-300 truncate px-0.5">{{ report.archetype.wealthEnergyTag.split(' ')[0] }}</div>
+        <!-- 3 大搞钱属性条 (解决 html2canvas 垂直截断与错位问题) -->
+        <div class="grid grid-cols-3 gap-1.5 p-2.5 rounded-xl bg-black/30 border border-white/15 text-center mb-4">
+          <div class="py-0.5">
+            <div class="text-[10px] text-white/70 leading-normal">搞钱体质</div>
+            <div class="text-xs font-black text-emerald-300 leading-normal mt-0.5 whitespace-nowrap">{{ report.archetype.wealthEnergyTag.split(' ')[0] }}</div>
           </div>
-          <div class="border-x border-white/15">
-            <div class="text-[10px] text-white/70">首选副业</div>
-            <div class="text-xs font-black text-amber-300 truncate px-0.5">{{ report.archetype.sideHustles[0]?.name.split(' ')[0] }}</div>
+          <div class="border-x border-white/15 py-0.5">
+            <div class="text-[10px] text-white/70 leading-normal">首选副业</div>
+            <div class="text-xs font-black text-amber-300 leading-normal mt-0.5 whitespace-nowrap">{{ report.archetype.sideHustles[0]?.name.split(' ')[0] }}</div>
           </div>
-          <div>
-            <div class="text-[10px] text-white/70">主导天赋</div>
-            <div class="text-xs font-bold text-white truncate px-0.5">{{ report.primaryDimension.name }}</div>
+          <div class="py-0.5">
+            <div class="text-[10px] text-white/70 leading-normal">主导天赋</div>
+            <div class="text-xs font-bold text-white leading-normal mt-0.5 whitespace-nowrap">{{ report.primaryDimension.name }}</div>
           </div>
         </div>
 
-        <!-- 六维雷达图嵌入 -->
+        <!-- 六维雷达图嵌入 (移除 CSS scale-95 防止 html2canvas 内部坐标偏移) -->
         <div class="bg-black/30 backdrop-blur-md rounded-2xl p-3 border border-white/15 mb-4 flex flex-col items-center">
           <div class="w-full flex items-center justify-between text-[11px] font-bold text-white/95 mb-1 px-1">
             <div class="flex items-center gap-1">
@@ -77,7 +82,7 @@
             </div>
             <span class="text-[10px] text-amber-300/90 font-mono">满分 100%</span>
           </div>
-          <div class="w-full flex justify-center scale-95 -my-2">
+          <div class="w-full flex justify-center py-1">
             <RadarChart :scores="report.dimensionPercentages" />
           </div>
         </div>

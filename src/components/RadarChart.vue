@@ -1,24 +1,19 @@
 <template>
-  <div class="relative w-full aspect-square max-w-[340px] mx-auto flex items-center justify-center p-1">
-    <svg :viewBox="`0 0 ${size} ${size}`" class="w-full h-full overflow-visible">
+  <div class="relative w-full aspect-[380/320] max-w-[360px] mx-auto flex items-center justify-center">
+    <svg viewBox="0 0 380 320" class="w-full h-full overflow-visible">
       <defs>
-        <!-- 文字立体阴影滤镜，确保在任何深色背景下100%清晰 -->
-        <filter id="textGlow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="1.2" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.85" />
-        </filter>
-
-        <!-- 数据多边形填充渐变（更通透、更协调的高级发光感） -->
+        <!-- 数据多边形填充渐变 -->
         <linearGradient id="polygonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#A855F7" stop-opacity="0.55" />
-          <stop offset="50%" stop-color="#EC4899" stop-opacity="0.45" />
-          <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.55" />
+          <stop offset="0%" stop-color="#C084FC" stop-opacity="0.60" />
+          <stop offset="50%" stop-color="#F472B6" stop-opacity="0.50" />
+          <stop offset="100%" stop-color="#FBBF24" stop-opacity="0.60" />
         </linearGradient>
 
-        <!-- 描边高亮纯白微光渐变 -->
+        <!-- 描边高亮渐变 -->
         <linearGradient id="strokeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#C084FC" />
-          <stop offset="50%" stop-color="#F472B6" />
-          <stop offset="100%" stop-color="#FDE047" />
+          <stop offset="0%" stop-color="#E9D5FF" />
+          <stop offset="50%" stop-color="#FBCFE8" />
+          <stop offset="100%" stop-color="#FEF08A" />
         </linearGradient>
       </defs>
 
@@ -37,8 +32,8 @@
       <line
         v-for="(axis, index) in axes"
         :key="'axis-' + index"
-        :x1="center"
-        :y1="center"
+        :x1="centerX"
+        :y1="centerY"
         :x2="axis.x"
         :y2="axis.y"
         stroke="rgba(255, 255, 255, 0.28)"
@@ -73,17 +68,18 @@
         />
       </g>
 
-      <!-- 维度名称与得分文本标签 (纯白加粗 + 明黄得分，100% 清晰防暗色遮挡) -->
-      <g v-for="(label, index) in labels" :key="'label-' + index" filter="url(#textGlow)">
+      <!-- 维度名称与得分文本标签 (纯白加粗 + 明黄得分，无滤镜以确保 html2canvas 100% 绝对精确渲染不漂移) -->
+      <g v-for="(label, index) in labels" :key="'label-' + index">
         <text
           :x="label.x"
           :y="label.y"
           :text-anchor="label.anchor"
           dominant-baseline="central"
-          class="font-medium tracking-tight text-[11px]"
+          font-size="11"
+          font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         >
-          <tspan font-weight="700" fill="#FFFFFF">{{ label.name }}</tspan>
-          <tspan dx="4" font-weight="800" fill="#FDE047">{{ label.score }}%</tspan>
+          <tspan font-weight="700" fill="#FFFFFF">{{ label.name }} </tspan>
+          <tspan font-weight="800" fill="#FDE047">{{ label.score }}%</tspan>
         </text>
       </g>
     </svg>
@@ -99,9 +95,12 @@ const props = defineProps<{
   scores: Record<DimensionKey, number>
 }>()
 
-const size = 330
-const center = size / 2
-const radius = 96 // 最大半径
+// 宽 380 高 320 的黄金比例画布，给左右两侧的文本留足 80px 充裕边距，绝不被切断
+const width = 380
+const height = 320
+const centerX = width / 2  // 190
+const centerY = height / 2 // 160
+const radius = 82          // 蛛网主体半径
 
 // 计算正六边形角度
 function getAngle(index: number): number {
@@ -112,8 +111,8 @@ function getAngle(index: number): number {
 function getPolygonPoints(scale: number): string {
   return DIMENSION_KEYS.map((_, i) => {
     const angle = getAngle(i)
-    const x = center + Math.cos(angle) * (radius * scale)
-    const y = center + Math.sin(angle) * (radius * scale)
+    const x = centerX + Math.cos(angle) * (radius * scale)
+    const y = centerY + Math.sin(angle) * (radius * scale)
     return `${x.toFixed(1)},${y.toFixed(1)}`
   }).join(' ')
 }
@@ -123,8 +122,8 @@ const axes = computed(() => {
   return DIMENSION_KEYS.map((_, i) => {
     const angle = getAngle(i)
     return {
-      x: center + Math.cos(angle) * radius,
-      y: center + Math.sin(angle) * radius
+      x: centerX + Math.cos(angle) * radius,
+      y: centerY + Math.sin(angle) * radius
     }
   })
 })
@@ -136,8 +135,8 @@ const dataPoints = computed(() => {
     const ratio = Math.max(0.2, Math.min(1.0, score / 100))
     const angle = getAngle(i)
     return {
-      x: center + Math.cos(angle) * (radius * ratio),
-      y: center + Math.sin(angle) * (radius * ratio)
+      x: centerX + Math.cos(angle) * (radius * ratio),
+      y: centerY + Math.sin(angle) * (radius * ratio)
     }
   })
 })
@@ -146,13 +145,15 @@ const dataPolygonPoints = computed(() => {
   return dataPoints.value.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ')
 })
 
-// 标签外扩位置与排版
+// 标签外扩位置与排版：左右标签精准留空，绝不出界
 const labels = computed(() => {
-  const labelRadius = radius + 30
   return DIMENSION_KEYS.map((key, i) => {
     const angle = getAngle(i)
-    const x = center + Math.cos(angle) * labelRadius
-    const y = center + Math.sin(angle) * labelRadius
+    // 顶部和底部外扩稍微多一点，左右紧随蛛网顶点
+    const isTopOrBottom = i === 0 || i === 3
+    const labelRadius = radius + (isTopOrBottom ? 22 : 18)
+    const x = centerX + Math.cos(angle) * labelRadius
+    const y = centerY + Math.sin(angle) * labelRadius
 
     let anchor = 'middle'
     if (Math.abs(Math.cos(angle)) > 0.3) {
@@ -163,8 +164,8 @@ const labels = computed(() => {
       name: DIMENSIONS[key].name,
       score: props.scores[key] || 80,
       color: DIMENSIONS[key].color,
-      x,
-      y,
+      x: Math.round(x),
+      y: Math.round(y),
       anchor
     }
   })
